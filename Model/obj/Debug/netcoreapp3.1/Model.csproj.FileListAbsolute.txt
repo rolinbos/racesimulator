@@ -1,0 +1,9 @@
+C:\Users\Rolin\Downloads\Code\RaceSimulator\Model\bin\Debug\netcoreapp3.1\Model.deps.json
+C:\Users\Rolin\Downloads\Code\RaceSimulator\Model\bin\Debug\netcoreapp3.1\Model.dll
+C:\Users\Rolin\Downloads\Code\RaceSimulator\Model\bin\Debug\netcoreapp3.1\Model.pdb
+C:\Users\Rolin\Downloads\Code\RaceSimulator\Model\obj\Debug\netcoreapp3.1\Model.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Rolin\Downloads\Code\RaceSimulator\Model\obj\Debug\netcoreapp3.1\Model.AssemblyInfoInputs.cache
+C:\Users\Rolin\Downloads\Code\RaceSimulator\Model\obj\Debug\netcoreapp3.1\Model.AssemblyInfo.cs
+C:\Users\Rolin\Downloads\Code\RaceSimulator\Model\obj\Debug\netcoreapp3.1\Model.csproj.CoreCompileInputs.cache
+C:\Users\Rolin\Downloads\Code\RaceSimulator\Model\obj\Debug\netcoreapp3.1\Model.dll
+C:\Users\Rolin\Downloads\Code\RaceSimulator\Model\obj\Debug\netcoreapp3.1\Model.pdb
