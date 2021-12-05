@@ -21,6 +21,7 @@ namespace Controller
             this.Track = track;
 
             this.RandomizeEquipment();
+            this.GiveParticipantsStartPosition();
         }
 
         /**
@@ -45,6 +46,35 @@ namespace Controller
             {
                 this.Participants[i].Equipment.Quantity = this._random.Next();
                 this.Participants[i].Equipment.Performance = this._random.Next();
+            }
+        }
+
+        // 4-3
+        public void GiveParticipantsStartPosition()
+        {
+            int NumberOfParticipant = 0;
+            var sectionNode = this.Track.Sections.First;
+            for (int i = 0; i < this.Track.Sections.Count; i++)
+            {
+                SectionData sectionData = this.GetSectionData(sectionNode.Value);
+                if (NumberOfParticipant < this.Participants.Count)
+                {
+                    sectionData.Left = this.Participants[NumberOfParticipant];
+                    NumberOfParticipant += 1;
+                }
+
+                if (NumberOfParticipant < this.Participants.Count)
+                {
+                    sectionData.Right = this.Participants[NumberOfParticipant];
+                    NumberOfParticipant += 1;
+                }
+
+                sectionNode = sectionNode.Previous;
+
+                if (sectionNode == null)
+                {
+                    sectionNode = this.Track.Sections.Last;
+                }
             }
         }
     }

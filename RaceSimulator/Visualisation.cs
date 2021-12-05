@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using Model;
+using Controller;
 
 namespace RaceSimulator
 {
@@ -17,7 +18,7 @@ namespace RaceSimulator
         public static int left = 20;
         public static int top = 20;
         public static Direction CurrentDirection = Direction.East;
-
+        public static Race CurrentRace;
         #region graphics
         private static string[] _startHorizontal = { "----", " 1> ", "2>  ", "----" };
         private static string[] _startVertical = { "|  |", "|^ |", "| ^|", "|  |" };
@@ -36,9 +37,10 @@ namespace RaceSimulator
         private static string[] _cornerLefVertical = { "|  \\", "| 1 ", "\\  2", " \\--" };
         #endregion
 
-        public static void Initialize()
+        public static void Initialize(Race race)
         {
-
+            CurrentRace = race;
+            DrawTrack(CurrentRace.Track);
         }
 
         public static void DrawTrack(Track track)
@@ -48,11 +50,40 @@ namespace RaceSimulator
 
             foreach (Section section in track.Sections)
             {
-                DrawSectionType(section.SectionType);
+                DrawSectionType(section);
             }
         }
 
-        private static void DrawSectionType(SectionTypes sectionType)
+        private static string[] FillPlaceHolders(string[] sprite, SectionData sectionData)
+        {
+            string[] output = (string[])sprite.Clone();
+            for (int i = 0; i < output.Length; i++)
+            {
+                if (sectionData.Left != null)
+                {
+                    output[i] = output[i].Replace('1', char.Parse(sectionData.Left.Name.Substring(0, 1)));
+                }
+                else
+                {
+                    output[i] = output[i].Replace('1', ' ');
+                }
+
+                if (sectionData.Right != null)
+                {
+                    output[i] = output[i].Replace('2', char.Parse(sectionData.Right.Name.Substring(0, 1)));
+                }
+                else
+                {
+                    output[i] = output[i].Replace('2', ' ');
+                }
+
+                output[i] = output[i].Replace('*', ' ');
+            }
+
+            return output;
+        }
+
+        private static void DrawSectionType(Section section)
         {
             // Check which direction the current is
             switch (CurrentDirection)
@@ -74,87 +105,87 @@ namespace RaceSimulator
 
             if (CurrentDirection == Direction.North || CurrentDirection == Direction.South)
             {
-                if (sectionType == SectionTypes.Finish)
-                    draw(_finishVertical);
+                if (section.SectionType == SectionTypes.Finish)
+                    draw(_finishVertical, section);
 
-                if (sectionType == SectionTypes.LeftCorner)
+                if (section.SectionType == SectionTypes.LeftCorner)
                 {
                     if (CurrentDirection == Direction.South)
                     {
-                        draw(_cornerLefVertical);
+                        draw(_cornerLefVertical, section);
                     }
                     else if (CurrentDirection == Direction.North)
                     {
-                        draw(_cornerRightHorinzontal);
+                        draw(_cornerRightHorinzontal, section);
                     }
                 }
 
-                if (sectionType == SectionTypes.RightCorner)
+                if (section.SectionType == SectionTypes.RightCorner)
                 {
                     if (CurrentDirection == Direction.South)
                     {
-                        draw(_cornerRightVertical);
+                        draw(_cornerRightVertical, section);
                     }
                     else if (CurrentDirection == Direction.North)
                     {
-                        draw(_cornerLeftHorizontal);
+                        draw(_cornerLeftHorizontal, section);
                     }
                 }
 
-                if (sectionType == SectionTypes.StartGrid)
+                if (section.SectionType == SectionTypes.StartGrid)
                 {
-                    draw(_startVertical);
+                    draw(_startVertical, section);
                 }
 
-                if (sectionType == SectionTypes.Straight)
+                if (section.SectionType == SectionTypes.Straight)
                 {
-                    draw(_trackVertical);
+                    draw(_trackVertical, section);
                 }
             }
 
             // Get horizontal
             if (CurrentDirection == Direction.East || CurrentDirection == Direction.West)
             {
-                if (sectionType == SectionTypes.Finish)
+                if (section.SectionType == SectionTypes.Finish)
                 {
-                    draw(_finishHorizontal);
+                    draw(_finishHorizontal, section);
                 }
 
-                if (sectionType == SectionTypes.LeftCorner)
+                if (section.SectionType == SectionTypes.LeftCorner)
                 {
                     if (CurrentDirection == Direction.East)
                     {
-                        draw(_cornerRightVertical);
+                        draw(_cornerRightVertical, section);
                     }
                     else if (CurrentDirection == Direction.West)
                     {
-                        draw(_cornerLeftHorizontal);
+                        draw(_cornerLeftHorizontal, section);
                     }
                 }
 
-                if (sectionType == SectionTypes.RightCorner)
+                if (section.SectionType == SectionTypes.RightCorner)
                 {
                     if (CurrentDirection == Direction.East)
                     {
-                        draw(_cornerRightHorinzontal);
+                        draw(_cornerRightHorinzontal, section);
                     } else if (CurrentDirection == Direction.West)
                     {
-                        draw(_cornerLefVertical);
+                        draw(_cornerLefVertical, section);
                     }
                 }
 
-                if (sectionType == SectionTypes.StartGrid)
+                if (section.SectionType == SectionTypes.StartGrid)
                 {
-                    draw(_startHorizontal);
+                    draw(_startHorizontal, section);
                 }
 
-                if (sectionType == SectionTypes.Straight)
+                if (section.SectionType == SectionTypes.Straight)
                 {
-                    draw(_trackHorizontal);
+                    draw(_trackHorizontal, section);
                 }
             }
             // Set the new direction
-            setDirection(sectionType);
+            setDirection(section.SectionType);
         }
 
         // Set the new direction. 
@@ -186,13 +217,15 @@ namespace RaceSimulator
             }
         }
 
-        private static void draw(string[] graphics)
+        private static void draw(string[] graphics, Section section)
         {
             int tmpLeft = left;
             int tmpTop = top;
             Console.SetCursorPosition(left, top);
 
-            foreach(string graphic in graphics)
+            string[] output = FillPlaceHolders(graphics, CurrentRace.GetSectionData(section));
+
+            foreach(string graphic in output)
             {
                 Console.WriteLine(graphic);
                 tmpTop += 1;

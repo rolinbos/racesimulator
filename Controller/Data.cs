@@ -22,24 +22,24 @@ namespace Controller
             Competition.Participants.Add(new Driver("Rolin", 0, new Car(0, 0, 0, false), TeamColors.Blue));
             Competition.Participants.Add(new Driver("Patrick", 0, new Car(0, 0, 0, false), TeamColors.Red));
             Competition.Participants.Add(new Driver("Sjoerd", 0, new Car(0, 0, 0, false), TeamColors.Green));
-            Competition.Participants.Add(new Driver("Amber", 0, new Car(0, 0, 0, false), TeamColors.Yellow));
+            //Competition.Participants.Add(new Driver("Amber", 0, new Car(0, 0, 0, false), TeamColors.Yellow));
         }
 
         public static void AddTracks()
         {
-            //Competition.Tracks.Enqueue(new Track("Zandvoort", new SectionTypes[]
-            //{
-            //    SectionTypes.StartGrid,
-            //    SectionTypes.RightCorner,
-            //    SectionTypes.Straight,
-            //    SectionTypes.RightCorner,
-            //    SectionTypes.Straight,
-            //    SectionTypes.Straight,
-            //    SectionTypes.RightCorner,
-            //    SectionTypes.Straight,
-            //    SectionTypes.RightCorner,
-            //    SectionTypes.Finish,
-            //}));
+            Competition.Tracks.Enqueue(new Track("Zandvoort", new SectionTypes[]
+            {
+                SectionTypes.StartGrid,
+                SectionTypes.RightCorner,
+                SectionTypes.Straight,
+                SectionTypes.RightCorner,
+                SectionTypes.Straight,
+                SectionTypes.Straight,
+                SectionTypes.RightCorner,
+                SectionTypes.Straight,
+                SectionTypes.RightCorner,
+                SectionTypes.Finish,
+            }));
             //Competition.Tracks.Enqueue(new Track("Spa", new SectionTypes[]
             //{
             //    SectionTypes.StartGrid,
@@ -53,7 +53,7 @@ namespace Controller
             //    SectionTypes.LeftCorner,
             //    SectionTypes.Finish,
             //}));
-            Competition.Tracks.Enqueue(new Track("Spa", new SectionTypes[]
+            Competition.Tracks.Enqueue(new Track("Difficult", new SectionTypes[]
 {
                 SectionTypes.StartGrid,
                 SectionTypes.RightCorner,
@@ -67,7 +67,7 @@ namespace Controller
                 SectionTypes.Straight,
                 SectionTypes.Straight,
                 SectionTypes.RightCorner,
-}));
+            }));
         }
 
         /**
