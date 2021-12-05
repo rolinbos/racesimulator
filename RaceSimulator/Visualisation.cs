@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Model;
 using Controller;
+using System.Diagnostics;
 
 namespace RaceSimulator
 {
@@ -40,7 +41,13 @@ namespace RaceSimulator
         public static void Initialize(Race race)
         {
             CurrentRace = race;
-            DrawTrack(CurrentRace.Track);
+            CurrentRace.DriverChangedEvent += DriversChanged;
+        }
+
+        public static void DriversChanged(Object sender, DriversChangedEventArgs args)
+        {
+            Debug.WriteLine("Ondriverchanged in visualisation");
+            DrawTrack(args.Track);
         }
 
         public static void DrawTrack(Track track)
