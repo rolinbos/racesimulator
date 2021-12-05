@@ -13,6 +13,7 @@ namespace Controller
         public Track Track { get; set; }
         public List<IParticipant> Participants { get; set; }
         public DateTime StartTime { get; set; }
+        public int Laps = 2;
 
         private Random _random = new Random();
         private Dictionary<Section, SectionData> _positions = new Dictionary<Section, SectionData>();
@@ -55,46 +56,55 @@ namespace Controller
             {
                 var sectionData = this.GetSectionData(sectionNode.Value);
 
-                if (sectionData.Left != null)
+                if (sectionData.Left != null && !sectionData.Left.Equipment.IsBroken)
                 {
                     sectionData.DistanceLeft += (sectionData.Left.Equipment.Performance * sectionData.Left.Equipment.Speed);
 
                     if (sectionData.DistanceLeft > 50)
                     {
-                        var nextSectionData = this.GetSectionData(sectionNode.Next == null ? this.Track.Sections.First.Value : sectionNode.Next.Value);
+                        var sectionNodeNext = sectionNode.Next == null ? this.Track.Sections.First.Value : sectionNode.Next.Value;
+                        var nextSectionData = this.GetSectionData(sectionNodeNext);
+                        if (sectionNodeNext.SectionType == SectionTypes.Finish)
+                        {
+                            sectionData.Left.Laps += 1;
+                        }
+
                         if (nextSectionData.Left == null)
                         {
                             nextSectionData.Left = sectionData.Left;
                             nextSectionData.DistanceLeft = sectionData.DistanceLeft - 50;
                             sectionData.Left = null;
 
-                            this.RandomizeEquipment();
-
                             this.DriverChangedEvent?.Invoke(this, new DriversChangedEventArgs(this.Track));
                         }
                     }
                 }
 
-                if (sectionData.Right != null)
+                if (sectionData.Right != null && !sectionData.Right.Equipment.IsBroken)
                 {
                     sectionData.DistanceRight += (sectionData.Right.Equipment.Performance * sectionData.Right.Equipment.Speed);
 
                     if (sectionData.DistanceRight > 50)
                     {
-                        var nextSectionData = this.GetSectionData(sectionNode.Next == null ? this.Track.Sections.First.Value : sectionNode.Next.Value);
+                        var sectionNodeNext = sectionNode.Next == null ? this.Track.Sections.First.Value : sectionNode.Next.Value;
+                        var nextSectionData = this.GetSectionData(sectionNodeNext);
+                        if (sectionNodeNext.SectionType == SectionTypes.Finish)
+                        {
+                            sectionData.Right.Laps += 1;
+                        }
+
                         if (nextSectionData.Right == null)
                         {
                             nextSectionData.Right = sectionData.Right;
                             nextSectionData.DistanceRight = sectionData.DistanceRight - 50;
                             sectionData.Right = null;
 
-                            this.RandomizeEquipment();
-
                             this.DriverChangedEvent?.Invoke(this, new DriversChangedEventArgs(this.Track));
                         }
                     }
                 }
 
+                this.RandomizeEquipment();
                 sectionNode = sectionNode.Next;
             }
         }
@@ -121,6 +131,7 @@ namespace Controller
             {
                 this.Participants[i].Equipment.Speed = this._random.Next(5, 10);
                 this.Participants[i].Equipment.Performance = this._random.Next(1, 3);
+                this.Participants[i].Equipment.IsBroken = this._random.Next(1, 100) > 70 ? true : false;
             }
         }
 

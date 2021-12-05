@@ -66,25 +66,36 @@ namespace RaceSimulator
             string[] output = (string[])sprite.Clone();
             for (int i = 0; i < output.Length; i++)
             {
-                if (sectionData.Left != null)
+                if (sectionData.Left != null && sectionData.Left.Laps < CurrentRace.Laps)
                 {
-                    output[i] = output[i].Replace('1', char.Parse(sectionData.Left.Name.Substring(0, 1)));
+                    if (sectionData.Left.Equipment.IsBroken)
+                    {
+                        output[i] = output[i].Replace('1', '*');
+                    } else
+                    {
+                        output[i] = output[i].Replace('1', char.Parse(sectionData.Left.Name.Substring(0, 1)));
+                    } 
                 }
                 else
                 {
                     output[i] = output[i].Replace('1', ' ');
                 }
 
-                if (sectionData.Right != null)
+                if (sectionData.Right != null && sectionData.Right.Laps < CurrentRace.Laps)
                 {
-                    output[i] = output[i].Replace('2', char.Parse(sectionData.Right.Name.Substring(0, 1)));
+                    if (sectionData.Right.Equipment.IsBroken)
+                    {
+                        output[i] = output[i].Replace('2', '*');
+                    }
+                    else
+                    {
+                        output[i] = output[i].Replace('2', char.Parse(sectionData.Right.Name.Substring(0, 1)));
+                    }
                 }
                 else
                 {
                     output[i] = output[i].Replace('2', ' ');
                 }
-
-                output[i] = output[i].Replace('*', ' ');
             }
 
             return output;
