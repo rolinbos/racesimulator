@@ -14,8 +14,8 @@ namespace RaceSimulator
     }
     public static class Visualisation
     {
-        public static int x = 20;
-        public static int y = 20;
+        public static int left = 20;
+        public static int top = 20;
         public static Direction CurrentDirection = Direction.East;
 
         #region graphics
@@ -43,7 +43,7 @@ namespace RaceSimulator
 
         public static void DrawTrack(Track track)
         {
-            Console.SetCursorPosition(x, y);
+            Console.SetCursorPosition(left, top);
             Console.BackgroundColor = ConsoleColor.DarkRed;
 
             foreach (Section section in track.Sections)
@@ -54,32 +54,51 @@ namespace RaceSimulator
 
         private static void DrawSectionType(SectionTypes sectionType)
         {
-            // Get vertical
+            // Check which direction the current is
+            switch (CurrentDirection)
+            {
+                case Direction.West:
+                    left -= 4;
+                    break;
+                case Direction.East:
+                    left += 4;
+                    break;
+                case Direction.North:
+                    top -= 4;
+                    break;
+                case Direction.South:
+                    top += 4;
+                    break;
+            }
+
+
             if (CurrentDirection == Direction.North || CurrentDirection == Direction.South)
             {
-                if (CurrentDirection == Direction.North)
-                {
-                    y -= 4;
-                }
-
-                if (CurrentDirection == Direction.South)
-                {
-                    y += 4;
-                }
-
                 if (sectionType == SectionTypes.Finish)
-                {
                     draw(_finishVertical);
-                }
 
                 if (sectionType == SectionTypes.LeftCorner)
                 {
-                    draw(_cornerLefVertical);
+                    if (CurrentDirection == Direction.South)
+                    {
+                        draw(_cornerLefVertical);
+                    }
+                    else if (CurrentDirection == Direction.North)
+                    {
+                        draw(_cornerRightHorinzontal);
+                    }
                 }
 
                 if (sectionType == SectionTypes.RightCorner)
                 {
-                    draw(_cornerRightVertical);
+                    if (CurrentDirection == Direction.South)
+                    {
+                        draw(_cornerRightVertical);
+                    }
+                    else if (CurrentDirection == Direction.North)
+                    {
+                        draw(_cornerLeftHorizontal);
+                    }
                 }
 
                 if (sectionType == SectionTypes.StartGrid)
@@ -96,17 +115,6 @@ namespace RaceSimulator
             // Get horizontal
             if (CurrentDirection == Direction.East || CurrentDirection == Direction.West)
             {
-                if (CurrentDirection == Direction.West)
-                {
-                    x -= 4;
-                }
-
-                if (CurrentDirection == Direction.East)
-                {
-                    x += 4;
-                }
-
-
                 if (sectionType == SectionTypes.Finish)
                 {
                     draw(_finishHorizontal);
@@ -114,12 +122,25 @@ namespace RaceSimulator
 
                 if (sectionType == SectionTypes.LeftCorner)
                 {
-                    draw(_cornerLefVertical);
+                    if (CurrentDirection == Direction.East)
+                    {
+                        draw(_cornerRightVertical);
+                    }
+                    else if (CurrentDirection == Direction.West)
+                    {
+                        draw(_cornerLeftHorizontal);
+                    }
                 }
 
                 if (sectionType == SectionTypes.RightCorner)
                 {
-                    draw(_cornerRightHorinzontal);
+                    if (CurrentDirection == Direction.East)
+                    {
+                        draw(_cornerRightHorinzontal);
+                    } else if (CurrentDirection == Direction.West)
+                    {
+                        draw(_cornerLefVertical);
+                    }
                 }
 
                 if (sectionType == SectionTypes.StartGrid)
@@ -143,7 +164,7 @@ namespace RaceSimulator
 
             if (sectionCorner == SectionTypes.RightCorner)
             {
-                if (indexCurrentDirection == 4)
+                if (indexCurrentDirection == 3)
                 {
                     CurrentDirection = (Direction)0;
                 } else
@@ -156,7 +177,7 @@ namespace RaceSimulator
             {
                 if (indexCurrentDirection == 0)
                 {
-                    CurrentDirection = (Direction)4;
+                    CurrentDirection = (Direction)3;
                 }
                 else
                 {
@@ -167,31 +188,17 @@ namespace RaceSimulator
 
         private static void draw(string[] graphics)
         {
-            int tmpX = x;
-            int tmpY = y;
-            Console.SetCursorPosition(x, y);
+            int tmpLeft = left;
+            int tmpTop = top;
+            Console.SetCursorPosition(left, top);
 
             foreach(string graphic in graphics)
             {
                 Console.WriteLine(graphic);
-                tmpY += 1;
+                tmpTop += 1;
 
-                if (CurrentDirection == Direction.South || CurrentDirection == Direction.East)
-                {
-                      
-                }
 
-                if (CurrentDirection == Direction.South || CurrentDirection == Direction.East)
-                {
-                    //tmpX += 1;
-                }
-
-                //if (CurrentDirection == Direction.North || CurrentDirection == Direction.West)
-                //{
-                //    tmpY -= 1;
-                //}
-
-                Console.SetCursorPosition(tmpX, tmpY);
+                Console.SetCursorPosition(tmpLeft, tmpTop);
             }
         }
     }

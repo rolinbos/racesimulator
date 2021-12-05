@@ -7,3 +7,4 @@ C:\Users\Rolin\Downloads\Code\RaceSimulator\Model\obj\Debug\netcoreapp3.1\Model.
 C:\Users\Rolin\Downloads\Code\RaceSimulator\Model\obj\Debug\netcoreapp3.1\Model.csproj.CoreCompileInputs.cache
 C:\Users\Rolin\Downloads\Code\RaceSimulator\Model\obj\Debug\netcoreapp3.1\Model.dll
 C:\Users\Rolin\Downloads\Code\RaceSimulator\Model\obj\Debug\netcoreapp3.1\Model.pdb
+C:\Users\Rolin\Downloads\Code\RaceSimulator\Model\obj\Debug\netcoreapp3.1\Model.csproj.AssemblyReference.cache
