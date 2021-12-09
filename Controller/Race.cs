@@ -109,6 +109,11 @@ namespace Controller
             }
         }
 
+        public void StartNextRace()
+        {
+        
+        }
+
         /**
          * Lijst van posities. Section is bijv. links rechts etc
          * Je haalt hem op aan de hand van de section en daarmee krijg je de informatie van de section door de sectionData.
