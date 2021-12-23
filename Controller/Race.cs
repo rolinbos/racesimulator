@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Timers;
-using Model;
 using System.Diagnostics;
 
 namespace Controller
@@ -13,14 +12,19 @@ namespace Controller
         public Track Track { get; set; }
         public List<IParticipant> Participants { get; set; }
         public DateTime StartTime { get; set; }
-        public int Laps = 2;
+        public int Laps = 1;
 
         private Random _random = new Random();
         private Dictionary<Section, SectionData> _positions = new Dictionary<Section, SectionData>();
         private Timer _timer;
 
-        public delegate void DriversChanged(Object sender, DriversChangedEventArgs args);
-        public event DriversChanged DriverChangedEvent;
+        public delegate void onDriversChanged(Object sender, DriversChangedEventArgs args);
+        public event onDriversChanged DriverChanged;
+
+        public delegate void onNextRace(object Sender, RaceStartEventArgs nextRaceEventArgs);
+        public event onNextRace NextRace;
+
+        public int participantFinished = 0;
 
         public Race(Track track, List<IParticipant> participants)
         {
@@ -51,6 +55,8 @@ namespace Controller
         private void updateDrivers()
         {
             var sectionNode = this.Track.Sections.First;
+            
+            this.RandomizeEquipment();
 
             for (int i = 0; i < this.Track.Sections.Count; i++)
             {
@@ -68,14 +74,18 @@ namespace Controller
                         {
                             sectionData.Left.Laps += 1;
                         }
-
-                        if (nextSectionData.Left == null)
+                        if (sectionData.Left.Laps >= this.Laps)
                         {
-                            nextSectionData.Left = sectionData.Left;
-                            nextSectionData.DistanceLeft = sectionData.DistanceLeft - 50;
                             sectionData.Left = null;
-
-                            this.DriverChangedEvent?.Invoke(this, new DriversChangedEventArgs(this.Track));
+                            participantFinished += 1;
+                        } else 
+                        {
+                            if (nextSectionData.Left == null)
+                            {
+                                nextSectionData.Left = sectionData.Left;
+                                nextSectionData.DistanceLeft = sectionData.DistanceLeft - 50;
+                                sectionData.Left = null;
+                            }
                         }
                     }
                 }
@@ -92,26 +102,43 @@ namespace Controller
                         {
                             sectionData.Right.Laps += 1;
                         }
-
-                        if (nextSectionData.Right == null)
+                        if (sectionData.Right.Laps >= this.Laps)
                         {
-                            nextSectionData.Right = sectionData.Right;
-                            nextSectionData.DistanceRight = sectionData.DistanceRight - 50;
                             sectionData.Right = null;
-
-                            this.DriverChangedEvent?.Invoke(this, new DriversChangedEventArgs(this.Track));
+                            participantFinished += 1;
+                        }
+                        else
+                        {
+                            if (nextSectionData.Right == null)
+                            {
+                                nextSectionData.Right = sectionData.Right;
+                                nextSectionData.DistanceRight = sectionData.DistanceRight - 50;
+                                sectionData.Right = null;
+                            }
                         }
                     }
                 }
 
-                this.RandomizeEquipment();
                 sectionNode = sectionNode.Next;
+
+                if (this.participantFinished == this.Participants.Count)
+                {
+                    this.StartNextRace();
+                }
+
+                this.DriverChanged?.Invoke(this, new DriversChangedEventArgs(this.Track));
             }
         }
 
         public void StartNextRace()
         {
-        
+            _timer.Enabled = false;
+            _timer.Stop();
+            DriverChanged = null;
+            this.participantFinished = 0;
+            Data.NextRace();
+            this.NextRace(this, new RaceStartEventArgs(Data.CurrentRace));
+            //NextRace?.Invoke(this, new RaceStartEventArgs(Data.CurrentRace));
         }
 
         /**
@@ -136,7 +163,7 @@ namespace Controller
             {
                 this.Participants[i].Equipment.Speed = this._random.Next(5, 10);
                 this.Participants[i].Equipment.Performance = this._random.Next(1, 3);
-                this.Participants[i].Equipment.IsBroken = this._random.Next(1, 100) > 70 ? true : false;
+                this.Participants[i].Equipment.IsBroken = this._random.Next(1, 100) > 90 ? true : false;
             }
         }
 
@@ -151,12 +178,14 @@ namespace Controller
                 if (NumberOfParticipant < this.Participants.Count)
                 {
                     sectionData.Left = this.Participants[NumberOfParticipant];
+                    sectionData.Left.Laps = 0;
                     NumberOfParticipant += 1;
                 }
 
                 if (NumberOfParticipant < this.Participants.Count)
                 {
                     sectionData.Right = this.Participants[NumberOfParticipant];
+                    sectionData.Right.Laps = 0;
                     NumberOfParticipant += 1;
                 }
 
@@ -167,6 +196,16 @@ namespace Controller
                     sectionNode = this.Track.Sections.Last;
                 }
             }
+        }
+    }
+
+    public class RaceStartEventArgs : EventArgs
+    {
+        public Race Race { get; set; }
+
+        public RaceStartEventArgs(Race race)
+        {
+            Race = race;
         }
     }
 }

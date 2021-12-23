@@ -19,7 +19,7 @@ namespace RaceSimulator
         public static int left = 20;
         public static int top = 20;
         public static Direction CurrentDirection = Direction.East;
-        public static Race CurrentRace;
+
         #region graphics
         private static string[] _startHorizontal = { "----", " 1> ", "2>  ", "----" };
         private static string[] _startVertical = { "|  |", "|^ |", "| ^|", "|  |" };
@@ -38,20 +38,35 @@ namespace RaceSimulator
         private static string[] _cornerLefVertical = { "|  \\", "| 1 ", "\\  2", " \\--" };
         #endregion
 
-        public static void Initialize(Race race)
+        public static void Initialize()
         {
-            CurrentRace = race;
-            CurrentRace.DriverChangedEvent += DriversChanged;
+            Data.CurrentRace.DriverChanged += DriversChanged;
+            Data.CurrentRace.NextRace += NextRace;
+        }
+
+        //Add the new events (intialize) to the new race when previous race ends
+        public static void NextRace(Object source, RaceStartEventArgs e)
+        {
+            Console.Clear();
+
+            if (e.Race != null)
+            {
+                Initialize();
+
+                CurrentDirection = Direction.East;
+                DrawTrack(Data.CurrentRace.Track);
+            }
         }
 
         public static void DriversChanged(Object sender, DriversChangedEventArgs args)
         {
-            Debug.WriteLine("Ondriverchanged in visualisation");
             DrawTrack(args.Track);
         }
 
         public static void DrawTrack(Track track)
         {
+            left = 20;
+            top = 20;
             Console.SetCursorPosition(left, top);
             Console.BackgroundColor = ConsoleColor.DarkRed;
 
@@ -66,7 +81,7 @@ namespace RaceSimulator
             string[] output = (string[])sprite.Clone();
             for (int i = 0; i < output.Length; i++)
             {
-                if (sectionData.Left != null && sectionData.Left.Laps < CurrentRace.Laps)
+                if (sectionData.Left != null)
                 {
                     if (sectionData.Left.Equipment.IsBroken)
                     {
@@ -81,7 +96,7 @@ namespace RaceSimulator
                     output[i] = output[i].Replace('1', ' ');
                 }
 
-                if (sectionData.Right != null && sectionData.Right.Laps < CurrentRace.Laps)
+                if (sectionData.Right != null)
                 {
                     if (sectionData.Right.Equipment.IsBroken)
                     {
@@ -241,13 +256,12 @@ namespace RaceSimulator
             int tmpTop = top;
             Console.SetCursorPosition(left, top);
 
-            string[] output = FillPlaceHolders(graphics, CurrentRace.GetSectionData(section));
+            string[] output = FillPlaceHolders(graphics, Data.CurrentRace.GetSectionData(section));
 
             foreach(string graphic in output)
             {
                 Console.WriteLine(graphic);
                 tmpTop += 1;
-
 
                 Console.SetCursorPosition(tmpLeft, tmpTop);
             }

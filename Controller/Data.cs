@@ -79,6 +79,9 @@ namespace Controller
             if (track != null)
             {
                 CurrentRace = new Race(track, Competition.Participants);
+            } else
+            {
+                CurrentRace = null;
             }
         }
     }

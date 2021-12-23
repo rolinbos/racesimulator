@@ -12,7 +12,8 @@ namespace RaceSimulator
             Competition competition = new Competition();
             Data.Initialize(competition);
             Data.NextRace();
-            Visualisation.Initialize(Data.CurrentRace);
+            Visualisation.Initialize();
+            Visualisation.DrawTrack(Data.CurrentRace.Track);
            
             for (; ; )
             {

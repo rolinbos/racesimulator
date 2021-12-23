@@ -1,0 +1,21 @@
+{
+  "Version": 1,
+  "ProjectMap": {
+    "8d7a99d7-5b83-44ad-9f31-263db71a986d": {
+      "ProjectGuid": "8d7a99d7-5b83-44ad-9f31-263db71a986d",
+      "DisplayName": "RaceSimulator",
+      "ColorIndex": 0
+    },
+    "9bec660c-07e1-45d5-af8c-a7b219457c28": {
+      "ProjectGuid": "9bec660c-07e1-45d5-af8c-a7b219457c28",
+      "DisplayName": "Controller",
+      "ColorIndex": 1
+    },
+    "911cb910-2f86-4cb1-a37a-756a762932c1": {
+      "ProjectGuid": "911cb910-2f86-4cb1-a37a-756a762932c1",
+      "DisplayName": "Model",
+      "ColorIndex": 2
+    }
+  },
+  "NextColorIndex": 3
+}
