@@ -27,19 +27,19 @@ namespace Controller
 
         public static void AddTracks()
         {
-            Competition.Tracks.Enqueue(new Track("Zandvoort", new SectionTypes[]
-            {
-                SectionTypes.StartGrid,
-                SectionTypes.RightCorner,
-                SectionTypes.Straight,
-                SectionTypes.RightCorner,
-                SectionTypes.Straight,
-                SectionTypes.Straight,
-                SectionTypes.RightCorner,
-                SectionTypes.Straight,
-                SectionTypes.RightCorner,
-                SectionTypes.Finish,
-            }));
+            //Competition.Tracks.Enqueue(new Track("Zandvoort", new SectionTypes[]
+            //{
+            //    SectionTypes.StartGrid,
+            //    SectionTypes.RightCorner,
+            //    SectionTypes.Straight,
+            //    SectionTypes.RightCorner,
+            //    SectionTypes.Straight,
+            //    SectionTypes.Straight,
+            //    SectionTypes.RightCorner,
+            //    SectionTypes.Straight,
+            //    SectionTypes.RightCorner,
+            //    SectionTypes.Finish,
+            //}));
             //Competition.Tracks.Enqueue(new Track("Spa", new SectionTypes[]
             //{
             //    SectionTypes.StartGrid,

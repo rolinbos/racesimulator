@@ -1,15 +1,17 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.31702.278
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31919.166
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RaceSimulator", "RaceSimulator\RaceSimulator.csproj", "{8D7A99D7-5B83-44AD-9F31-263DB71A986D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RaceSimulator", "RaceSimulator\RaceSimulator.csproj", "{8D7A99D7-5B83-44AD-9F31-263DB71A986D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Model", "Model\Model.csproj", "{911CB910-2F86-4CB1-A37A-756A762932C1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Model", "Model\Model.csproj", "{911CB910-2F86-4CB1-A37A-756A762932C1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Controller", "Controller\Controller.csproj", "{9BEC660C-07E1-45D5-AF8C-A7B219457C28}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Controller", "Controller\Controller.csproj", "{9BEC660C-07E1-45D5-AF8C-A7B219457C28}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ControllerTest", "ControllerTest\ControllerTest.csproj", "{04656BAE-62AD-445D-9E30-C56EBA2424DA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ControllerTest", "ControllerTest\ControllerTest.csproj", "{04656BAE-62AD-445D-9E30-C56EBA2424DA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Virtualisatie", "Virtualisatie\Virtualisatie.csproj", "{E7447067-9DBB-4DB9-84AF-A643A83235B0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{04656BAE-62AD-445D-9E30-C56EBA2424DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{04656BAE-62AD-445D-9E30-C56EBA2424DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{04656BAE-62AD-445D-9E30-C56EBA2424DA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E7447067-9DBB-4DB9-84AF-A643A83235B0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E7447067-9DBB-4DB9-84AF-A643A83235B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E7447067-9DBB-4DB9-84AF-A643A83235B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E7447067-9DBB-4DB9-84AF-A643A83235B0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

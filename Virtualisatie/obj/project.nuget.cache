@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "eWGnS4DytgeABSAQSCHlli0imVujMGw2sIPY/V+mw4c1JEXcCeffUNIUt3/dn56h66KeYIXM/7shm15gkjAPRQ==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\Rolin\\Downloads\\Code\\RaceSimulator\\Virtualisatie\\Virtualisatie.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Rolin\\.nuget\\packages\\microsoft.win32.systemevents\\6.0.0\\microsoft.win32.systemevents.6.0.0.nupkg.sha512",
+    "C:\\Users\\Rolin\\.nuget\\packages\\system.drawing.common\\6.0.0\\system.drawing.common.6.0.0.nupkg.sha512"
+  ],
+  "logs": []
+}
