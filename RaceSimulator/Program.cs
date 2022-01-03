@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using Controller;
 using Model;
@@ -14,7 +15,7 @@ namespace RaceSimulator
             Data.NextRace();
             Visualisation.Initialize();
             Visualisation.DrawTrack(Data.CurrentRace.Track);
-           
+
             for (; ; )
             {
                 Thread.Sleep(100);

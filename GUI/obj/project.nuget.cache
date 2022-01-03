@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "OTYKe4Z5W/QmkTd6nFEav04Bomahz7G/ATjjBXbie3YU/g89YdIdqLUzJRT3UPY+QuH0D47KThuOHYUSL9vzhg==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\Rolin\\Downloads\\Code\\RaceSimulator\\GUI\\GUI.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Rolin\\.nuget\\packages\\microsoft.win32.systemevents\\6.0.0\\microsoft.win32.systemevents.6.0.0.nupkg.sha512",
+    "C:\\Users\\Rolin\\.nuget\\packages\\system.drawing.common\\6.0.0\\system.drawing.common.6.0.0.nupkg.sha512"
+  ],
+  "logs": []
+}

@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Controller", "Controller\Co
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ControllerTest", "ControllerTest\ControllerTest.csproj", "{04656BAE-62AD-445D-9E30-C56EBA2424DA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Virtualisatie", "Virtualisatie\Virtualisatie.csproj", "{E7447067-9DBB-4DB9-84AF-A643A83235B0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GUI", "GUI\GUI.csproj", "{E4A5FFB4-224D-464D-8BD1-F938C2994350}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,10 +35,10 @@ Global
 		{04656BAE-62AD-445D-9E30-C56EBA2424DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{04656BAE-62AD-445D-9E30-C56EBA2424DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{04656BAE-62AD-445D-9E30-C56EBA2424DA}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E7447067-9DBB-4DB9-84AF-A643A83235B0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E7447067-9DBB-4DB9-84AF-A643A83235B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E7447067-9DBB-4DB9-84AF-A643A83235B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E7447067-9DBB-4DB9-84AF-A643A83235B0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E4A5FFB4-224D-464D-8BD1-F938C2994350}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E4A5FFB4-224D-464D-8BD1-F938C2994350}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E4A5FFB4-224D-464D-8BD1-F938C2994350}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E4A5FFB4-224D-464D-8BD1-F938C2994350}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

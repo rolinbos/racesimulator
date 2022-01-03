@@ -1,0 +1,61 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Images\Blue.png" />
+    <None Remove="Images\CornerLeftHorizontal.png" />
+    <None Remove="Images\CornerLeftVertical.png" />
+    <None Remove="Images\CornerRightHorizontal.png" />
+    <None Remove="Images\CornerRightVertical.png" />
+    <None Remove="Images\Empty.png" />
+    <None Remove="Images\Finish.png" />
+    <None Remove="Images\fire.png" />
+    <None Remove="Images\Grass_Tile.png" />
+    <None Remove="Images\Green.png" />
+    <None Remove="Images\Grey.png" />
+    <None Remove="Images\Red.png" />
+    <None Remove="Images\Start.png" />
+    <None Remove="Images\TrackHorizontal.png" />
+    <None Remove="Images\TrackVertical.png" />
+    <None Remove="Images\Water.png" />
+    <None Remove="Images\Water_Tile.png" />
+    <None Remove="Images\Yellow.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Images\Blue.png" />
+    <Content Include="Images\CornerLeftHorizontal.png" />
+    <Content Include="Images\CornerLeftVertical.png" />
+    <Content Include="Images\CornerRightHorizontal.png" />
+    <Content Include="Images\CornerRightVertical.png" />
+    <Content Include="Images\Empty.png" />
+    <Content Include="Images\Finish.png" />
+    <Content Include="Images\fire.png" />
+    <Content Include="Images\Grass_Tile.png" />
+    <Content Include="Images\Green.png" />
+    <Content Include="Images\Grey.png" />
+    <Content Include="Images\Red.png" />
+    <Content Include="Images\Start.png" />
+    <Content Include="Images\TrackHorizontal.png" />
+    <Content Include="Images\TrackVertical.png" />
+    <Content Include="Images\Water.png" />
+    <Content Include="Images\Water_Tile.png" />
+    <Content Include="Images\Yellow.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Drawing.Common" Version="6.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Controller\Controller.csproj" />
+    <ProjectReference Include="..\Model\Model.csproj" />
+    <ProjectReference Include="..\RaceSimulator\RaceSimulator.csproj" />
+  </ItemGroup>
+
+</Project>

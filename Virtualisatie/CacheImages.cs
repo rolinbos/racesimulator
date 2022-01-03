@@ -17,10 +17,9 @@ namespace Virtualisatie
             if (Cache.ContainsKey(url))
                 return Cache[url];
 
-            Bitmap bmp = new Bitmap(url);
-            Cache.Add(url, bmp);
+            Cache.Add(url, new System.Drawing.Bitmap("C:\\Users\\Rolin\\Downloads\\Code\\RaceSimulator\\Virtualisatie\\Assets\\Blue.png"));
             
-            return bmp;
+            return Cache[url];
         }
 
         public static Bitmap CreateBitmap(int width, int height)
