@@ -38,37 +38,43 @@ namespace GUI
 
         public static BitmapSource DrawTrack(Track track)
         {
-            (int width, int height) getWidthAndHeight = BuildTrack.GetWidthAndHeight(track);
-
-            Canvas = Image.CreateEmptyBitmap(getWidthAndHeight.width * 256, getWidthAndHeight.height * 256);
-
-            Bitmap[,] bigMap = CreateMap(track, getWidthAndHeight.width, getWidthAndHeight.height);
-            var h = bigMap;
-            Bitmap[,] map = BuildTrack.RemovingUnusedColOrRow(bigMap);
-
-            Graphics g = Graphics.FromImage(Canvas);
-
-            int x = 0;
-            int y = 0;
-            for (int i = 0; i < map.GetLength(0); i++)
+            var h = BuildTrack.Map;
+            if (BuildTrack.Map != null)
             {
-                for (int j = 0; j < map.GetLength(1); j++)
-                {
-                    if (map[i, j] == null)
-                    {
-                        g.DrawImage(Image.GetImage(WaterTile), x, y, 256, 256);
-                    }
-                    else
-                    {
-                        g.DrawImage(map[i, j], x, y, 256, 256);
-                    }
-
-                    y += 256;
-                }
-                x += 256;
-                y = 0;
+                // Build drivers
             }
-            //Build(track, getWidthAndHeight.width, getWidthAndHeight.height);
+            else
+            {
+                (int width, int height) getWidthAndHeight = BuildTrack.GetWidthAndHeight(track);
+
+                Canvas = Image.CreateEmptyBitmap(getWidthAndHeight.width * 256, getWidthAndHeight.height * 256);
+
+                Bitmap[,] bigMap = CreateMap(track, getWidthAndHeight.width, getWidthAndHeight.height);
+                Bitmap[,] map = BuildTrack.RemovingUnusedColOrRow(bigMap);
+                Graphics g = Graphics.FromImage(Canvas);
+
+                int x = 0;
+                int y = 0;
+                for (int i = 0; i < map.GetLength(0); i++)
+                {
+                    for (int j = 0; j < map.GetLength(1); j++)
+                    {
+                        if (map[i, j] == null)
+                        {
+                            g.DrawImage(Image.GetImage(WaterTile), x, y, 256, 256);
+                        }
+                        else
+                        {
+                            g.DrawImage(map[i, j], x, y, 256, 256);
+                        }
+
+                        y += 256;
+                    }
+                    x += 256;
+                    y = 0;
+                }
+            }
+            
 
             return Image.CreateBitmapSourceFromGdiBitmap(Canvas);
         }
@@ -78,6 +84,7 @@ namespace GUI
             int hor = horizontal * 3;
             int vert = vertical * 3;
             Bitmap[,] map = new Bitmap[hor, vert];
+            string[,] stringMap = new string[hor, vert];
 
             int row = 0;
             int col = hor / 2;
@@ -86,6 +93,7 @@ namespace GUI
 
             foreach (var section in track.Sections)
             {
+                stringMap[row, col] = section.SectionType.ToString();
                 map[row, col] = SetBitmap(section, direction);
 
                 if (direction == RaceSimulator.Direction.North)
@@ -110,6 +118,9 @@ namespace GUI
 
                 direction = BuildTrack.SetDirection(section.SectionType, (int)direction);
             }
+
+            var h = BuildTrack.RemovingUnusedColOrRowString(stringMap);
+            Console.WriteLine();
 
             return map;
         }

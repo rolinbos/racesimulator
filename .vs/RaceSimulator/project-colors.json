@@ -20,7 +20,12 @@
       "ProjectGuid": "e7447067-9dbb-4db9-84af-a643a83235b0",
       "DisplayName": "Virtualisatie",
       "ColorIndex": 3
+    },
+    "e4a5ffb4-224d-464d-8bd1-f938c2994350": {
+      "ProjectGuid": "e4a5ffb4-224d-464d-8bd1-f938c2994350",
+      "DisplayName": "GUI",
+      "ColorIndex": 4
     }
   },
-  "NextColorIndex": 4
+  "NextColorIndex": 5
 }

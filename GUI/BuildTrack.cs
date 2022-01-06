@@ -10,6 +10,8 @@ namespace GUI
 {
     public class BuildTrack
     {
+        public static Bitmap[,] Map;
+
         // Krijg de breedte en hoogte van de track
         public static (int width, int height) GetWidthAndHeight(Track track)
         {
@@ -137,12 +139,95 @@ namespace GUI
                             if (bigMap[i, j] != null)
                             {
                                 map[newRow, newCol] = bigMap[i, j];
-                                // Console.Write("x");
                             }
                             else
                             {
                                 map[newRow, newCol] = bigMap[i, j];
-                                // Console.Write(" ");
+                            }
+                            newCol++;
+                        }
+                    }
+                }
+
+                if (!rowRemoving.Contains(i))
+                {
+                    newRow++;
+                }
+            }
+
+            Map = map;
+            return map;
+        }
+
+        public static string[,] RemovingUnusedColOrRowString(string[,] bigMap)
+        {
+            int row = bigMap.GetLength(0);
+            int col = bigMap.GetLength(1);
+
+            List<int> rowRemoving = new List<int>();
+            List<int> colRemoving = new List<int>();
+
+            bool removeColumn = false;
+            bool removeRow = false;
+
+            // Removing row
+            for (int i = 0; i < row; i++)
+            {
+                removeRow = true;
+
+                for (int j = 0; j < col; j++)
+                {
+                    if (bigMap[i, j] != null)
+                    {
+                        removeRow = false;
+                    }
+                }
+
+                if (removeRow)
+                {
+                    rowRemoving.Add(i);
+                }
+            }
+
+            // Removing column
+            for (int i = 0; i < col; i++)
+            {
+                removeColumn = true;
+
+                for (int j = 0; j < row; j++)
+                {
+                    if (bigMap[j, i] != null)
+                    {
+                        removeColumn = false;
+                    }
+                }
+
+                if (removeColumn)
+                {
+                    colRemoving.Add(i);
+                }
+            }
+
+            int newRow = 0;
+            int newCol = 0;
+
+            string[,] map = new string[(row - rowRemoving.Count), (col - colRemoving.Count)];
+            for (int i = 0; i < row; i++)
+            {
+                newCol = 0;
+                for (int j = 0; j < col; j++)
+                {
+                    if (!rowRemoving.Contains(i))
+                    {
+                        if (!colRemoving.Contains(j))
+                        {
+                            if (bigMap[i, j] != null)
+                            {
+                                map[newRow, newCol] = bigMap[i, j];
+                            }
+                            else
+                            {
+                                map[newRow, newCol] = bigMap[i, j];
                             }
                             newCol++;
                         }
@@ -156,6 +241,11 @@ namespace GUI
             }
 
             return map;
+        }
+
+        public static void ClearMap()
+        {
+            Map = null;
         }
     }
 }

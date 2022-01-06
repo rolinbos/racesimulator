@@ -109,6 +109,7 @@ namespace GUI
         public static void ClearCache()
         {
             _cache.Clear();
+            BuildTrack.ClearMap();
         }
     }
 }
