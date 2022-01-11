@@ -74,15 +74,14 @@ namespace GUI
                     x = 0;
                 }
             }
-            
 
             return Image.CreateBitmapSourceFromGdiBitmap(Canvas);
         }
 
         public static Bitmap[,] CreateMap(Track track, int horizontal, int vertical)
         {
-            int hor = horizontal * 2; // change to three
-            int vert = vertical * 2; // change to three
+            int hor = horizontal * 3;
+            int vert = vertical * 3;
             Bitmap[,] map = new Bitmap[hor, vert];
             string[,] stringMap = new string[hor, vert];
 
@@ -124,10 +123,19 @@ namespace GUI
 
         public static Bitmap SetBitmap(Section section, Direction direction)
         {
-            //if ((section.SectionType == SectionTypes.StartGrid || section.SectionType == SectionTypes.Straight) && (direction == Direction.East || direction == Direction.West))
-            //{
-            //    return Image.GetImage(TrackHorizontal);
-            //}
+            if ((section.SectionType == SectionTypes.StartGrid || section.SectionType == SectionTypes.Straight) && (direction == Direction.East || direction == Direction.West))
+            {
+                return Image.GetImage(TrackHorizontal);
+            } else if (section.SectionType == SectionTypes.RightCorner)
+            {
+                return Image.GetImage(CornerRightHorizontal);
+            } else if (section.SectionType == SectionTypes.LeftCorner)
+            {
+                return Image.GetImage(CornerLeftHorizontal);
+            } else if (section.SectionType == SectionTypes.Finish)
+            {
+                return Image.GetImage(Finish);
+            }
 
             return Image.GetImage(Fire);
         }
