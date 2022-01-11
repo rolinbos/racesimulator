@@ -49,8 +49,8 @@ namespace GUI
 
                 Canvas = Image.CreateEmptyBitmap(getWidthAndHeight.width * 256, getWidthAndHeight.height * 256);
 
-                Bitmap[,] bigMap = CreateMap(track, getWidthAndHeight.width, getWidthAndHeight.height);
-                Bitmap[,] map = BuildTrack.RemovingUnusedColOrRow(bigMap);
+                Bitmap[,] map = CreateMap(track, getWidthAndHeight.width, getWidthAndHeight.height);
+                //Bitmap[,] map = BuildTrack.RemovingUnusedColOrRow(bigMap);
                 Graphics g = Graphics.FromImage(Canvas);
 
                 int x = 0;
@@ -68,10 +68,10 @@ namespace GUI
                             g.DrawImage(map[i, j], x, y, 256, 256);
                         }
 
-                        y += 256;
+                        x += 256;
                     }
-                    x += 256;
-                    y = 0;
+                    y += 256;
+                    x = 0;
                 }
             }
             
@@ -81,8 +81,8 @@ namespace GUI
 
         public static Bitmap[,] CreateMap(Track track, int horizontal, int vertical)
         {
-            int hor = horizontal * 3;
-            int vert = vertical * 3;
+            int hor = horizontal * 2; // change to three
+            int vert = vertical * 2; // change to three
             Bitmap[,] map = new Bitmap[hor, vert];
             string[,] stringMap = new string[hor, vert];
 
@@ -95,6 +95,8 @@ namespace GUI
             {
                 stringMap[row, col] = section.SectionType.ToString();
                 map[row, col] = SetBitmap(section, direction);
+
+                direction = BuildTrack.SetDirection(section.SectionType, (int)direction);
 
                 if (direction == RaceSimulator.Direction.North)
                 {
@@ -115,22 +117,17 @@ namespace GUI
                 {
                     col--;
                 }
-
-                direction = BuildTrack.SetDirection(section.SectionType, (int)direction);
             }
 
-            var h = BuildTrack.RemovingUnusedColOrRowString(stringMap);
-            Console.WriteLine();
-
-            return map;
+            return BuildTrack.RemovingUnusedColOrRow(map);
         }
 
         public static Bitmap SetBitmap(Section section, Direction direction)
         {
-            if ((section.SectionType == SectionTypes.StartGrid || section.SectionType == SectionTypes.Straight) && (direction == Direction.East || direction == Direction.West))
-            {
-                return Image.GetImage(TrackHorizontal);
-            }
+            //if ((section.SectionType == SectionTypes.StartGrid || section.SectionType == SectionTypes.Straight) && (direction == Direction.East || direction == Direction.West))
+            //{
+            //    return Image.GetImage(TrackHorizontal);
+            //}
 
             return Image.GetImage(Fire);
         }

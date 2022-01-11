@@ -13,9 +13,9 @@ namespace RaceSimulator
             string[,] s = new string[5, 4]
             {
                 { null, null, null, null },
-                { null, "x", "x", "x" },
-                { null, "1", null, "1" },
-                { null, "1", "1", "1" },
+                { null, "x", "x", "2" },
+                { null, "1", null, "2" },
+                { null, "1", "1", "2" },
                 { null, null, null, null },
             };
 
