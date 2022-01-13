@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -35,33 +36,36 @@ namespace GUI
         #endregion
 
         public static Bitmap Canvas;
+        private static Dictionary<int, int> CoordinationX = new Dictionary<int, int>();
+        private static Dictionary<int, int> CoordinationY = new Dictionary<int, int>();
 
         public static BitmapSource DrawTrack(Track track)
         {
+            CoordinationX = new Dictionary<int, int>();
+            CoordinationY = new Dictionary<int, int>();
+
             var h = BuildTrack.Map;
-            if (BuildTrack.Map != null)
-            {
-                // Build drivers
-            }
-            else
-            {
+
+
+            //if (BuildTrack.Map == null)
+            //{
                 (int width, int height) getWidthAndHeight = BuildTrack.GetWidthAndHeight(track);
 
                 Canvas = Image.CreateEmptyBitmap(getWidthAndHeight.width * 256, getWidthAndHeight.height * 256);
-
-                Bitmap[,] map = CreateMap(track, getWidthAndHeight.width, getWidthAndHeight.height);
-                //Bitmap[,] map = BuildTrack.RemovingUnusedColOrRow(bigMap);
                 Graphics g = Graphics.FromImage(Canvas);
+                Bitmap[,] map = CreateMap(track, getWidthAndHeight.width, getWidthAndHeight.height);
 
                 int x = 0;
                 int y = 0;
+                int index = 0;
+
                 for (int i = 0; i < map.GetLength(0); i++)
                 {
                     for (int j = 0; j < map.GetLength(1); j++)
                     {
                         if (map[i, j] == null)
                         {
-                            g.DrawImage(Image.GetImage(WaterTile), x, y, 256, 256);
+                            g.DrawImage(Image.GetImage(GrassTile), x, y, 256, 256);
                         }
                         else
                         {
@@ -73,7 +77,15 @@ namespace GUI
                     y += 256;
                     x = 0;
                 }
-            }
+
+                PlaceParticipants(g, track);
+            //}
+            //else
+            //{
+            //    Graphics g = Graphics.FromImage(Canvas);
+            //    PlaceParticipants(g, track);
+            //    Debug.WriteLine("Hij komt hier");
+            //}
 
             return Image.CreateBitmapSourceFromGdiBitmap(Canvas);
         }
@@ -87,13 +99,15 @@ namespace GUI
 
             int row = 0;
             int col = hor / 2;
-
+            int index = 0;
             RaceSimulator.Direction direction = RaceSimulator.Direction.East;
 
             foreach (var section in track.Sections)
             {
                 stringMap[row, col] = section.SectionType.ToString();
                 map[row, col] = SetBitmap(section, direction);
+                CoordinationX.Add(index, row);
+                CoordinationY.Add(index, Rounding(col, 3));
 
                 direction = BuildTrack.SetDirection(section.SectionType, (int)direction);
 
@@ -116,22 +130,52 @@ namespace GUI
                 {
                     col--;
                 }
+
+                index += 1;
             }
+            
 
             return BuildTrack.RemovingUnusedColOrRow(map);
         }
 
         public static Bitmap SetBitmap(Section section, Direction direction)
         {
-            if ((section.SectionType == SectionTypes.StartGrid || section.SectionType == SectionTypes.Straight) && (direction == Direction.East || direction == Direction.West))
+            SectionData sectionData = Data.CurrentRace.GetSectionData(section);
+
+            if (section.SectionType == SectionTypes.StartGrid || section.SectionType == SectionTypes.Straight)
             {
-                return Image.GetImage(TrackHorizontal);
+                if ((direction == Direction.East || direction == Direction.West))
+                {
+                    return Image.GetImage(TrackHorizontal);
+                }
+
+                return Image.GetImage(TrackVertical);
             } else if (section.SectionType == SectionTypes.RightCorner)
             {
-                return Image.GetImage(CornerRightHorizontal);
+                if (direction == Direction.South)
+                {
+                    return Image.GetImage(CornerLeftHorizontal);
+                }
+
+                if (direction == Direction.West)
+                {
+                    return Image.GetImage(CornerRightHorizontal);
+                }
+
+                if (direction == Direction.North)
+                {
+                    return Image.GetImage(CornerRightVertical);
+                }
+
+                return Image.GetImage(CornerLeftVertical);
             } else if (section.SectionType == SectionTypes.LeftCorner)
             {
-                return Image.GetImage(CornerLeftHorizontal);
+                if (direction == Direction.East || direction == Direction.West)
+                {
+                    return Image.GetImage(CornerRightVertical);
+                }
+
+                return Image.GetImage(CornerRightHorizontal); 
             } else if (section.SectionType == SectionTypes.Finish)
             {
                 return Image.GetImage(Finish);
@@ -140,86 +184,63 @@ namespace GUI
             return Image.GetImage(Fire);
         }
 
-        //public static void Build(Track track, int width, int height)
-        //{
-        //    // hor
-        //    int x = 0;
-        //    // ver
-        //    int y = 0;
+        public static void PlaceParticipants(Graphics g, Track track)
+        {
+            Debug.WriteLine("Pas driver aan");
+            int index = 0;
+            foreach (var section in track.Sections)
+            {
+                int x = CoordinationX[index];
+                int y = CoordinationY[index] - 1;
 
-        //    Graphics g = Graphics.FromImage(Canvas);
-        //    var direction = RaceSimulator.Direction.East;
+                var sectiondata = Data.CurrentRace.GetSectionData(section);
 
-        //    foreach (var section in track.Sections)
-        //    {
-        //       // g.DrawImage(Image.GetImage(CornerRightVertical), x, y, 256, 256);
+                if (sectiondata.Left != null)
+                {
+                    if (sectiondata.Left.Equipment.IsBroken)
+                    {
+                        g.DrawImage(Image.GetImage(Fire), x * 256 + 128, y * 256, 128, 128);
+                    }
+                    Bitmap carleft = ParticipantsImage(sectiondata.Left);
+                    g.DrawImage(carleft, ((y * 256 + 128)), (x * 256), 128, 128);
+                }
+                if (sectiondata.Right != null)
+                {
+                    if (sectiondata.Right.Equipment.IsBroken)
+                    {
+                        g.DrawImage(Image.GetImage(Fire), x * 256, y * 256 + 128, 128, 128);
+                    }
+                    Bitmap carRight = ParticipantsImage(sectiondata.Right);
+                    g.DrawImage(carRight, ((y * 256)), ((x * 256 + 128)), 128, 128);
 
-        //        if (direction == RaceSimulator.Direction.East)
-        //        {
-        //            if (section.SectionType == SectionTypes.LeftCorner)
-        //            {
-        //                g.DrawImage(Image.GetImage(Finish), x, y, 256, 256);
-        //                //g.DrawImage(Image.RotateImage(Image.GetImage(CornerRightVertical), direction), x, y, 256, 256);
-        //                //draw(_cornerRightVertical, section);
-        //            }
+                }
+            }
+        }
 
-        //            if (section.SectionType == SectionTypes.RightCorner)
-        //            {
-        //                g.DrawImage(Image.GetImage(Finish), x, y, 256, 256);
-        //                //g.DrawImage(Image.RotateImage(Image.GetImage(CornerRightVertical), direction), x, y, 256, 256);
+        public static Bitmap ParticipantsImage(IParticipant participant)
+        {
+            switch (participant.TeamColor)
+            {
+                case TeamColors.Blue:
+                    return Image.GetImage(Blue);
+                case TeamColors.Grey:
+                    return Image.GetImage(Grey);
+                case TeamColors.Green:
+                    return Image.GetImage(Green);
+                case TeamColors.Red:
+                    return Image.GetImage(Red);
+                case TeamColors.Yellow:
+                    return Image.GetImage(Yellow);
+                default:
+                    throw new ArgumentOutOfRangeException("Color null");
+            }
+        }
 
-        //                //g.DrawImage(Image.GetImage(CornerRightHorizontal), x, y, 256, 256);
-        //                // draw(_cornerRightHorinzontal, section);
-        //            }
+        public static int Rounding(int number, int splitter)
+        {
+            double output = (double)number / splitter;
 
-        //            if (section.SectionType == SectionTypes.Finish)
-        //            {
-        //                g.DrawImage(Image.GetImage(Finish), x, y, 256, 256);
-        //                // g.DrawImage(Image.GetImage(Finish), x, y, 256, 256);
-        //                // draw(_finishhorizontal, section);
-        //            }
-
-        //            if (section.SectionType == SectionTypes.Straight || section.SectionType == SectionTypes.StartGrid)
-        //            {
-        //              g.DrawImage(Image.GetImage(TrackHorizontal), x, y, 256, 256);
-        //                // draw(_trackHorizontal, section);
-        //            }
-
-        //            x += 256;
-        //        }
-
-        //        if (direction == RaceSimulator.Direction.South)
-        //        {
-        //            g.DrawImage(Image.GetImage(Finish), x, y, 256, 256);
-        //            y += 256;
-        //        }
-
-        //        if (direction == RaceSimulator.Direction.West)
-        //        {
-        //            g.DrawImage(Image.GetImage(Finish), x, y, 256, 256);
-        //            if (section.SectionType == SectionTypes.Finish)
-        //            {
-
-        //                // draw(_finishhorizontal, section);
-        //            }
-
-        //            if (section.SectionType == SectionTypes.Straight || section.SectionType == SectionTypes.StartGrid)
-        //            {
-        //                // draw(_trackHorizontal, section);
-        //            }
-
-        //            x -= 256;
-        //        }
-
-        //        if (direction == RaceSimulator.Direction.North)
-        //        {
-        //            g.DrawImage(Image.GetImage(Finish), x, y, 256, 256);
-        //            y -= 256;
-        //        }
-
-        //        // Zet nieuwe directie
-        //        direction = BuildTrack.SetDirection(section.SectionType, (int)direction);
-        //    }
-        //}
+            return Convert.ToInt32(Math.Round(output));
+        }
     }
 }

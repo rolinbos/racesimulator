@@ -10,6 +10,14 @@ namespace RaceSimulator
     {
         static void Main(string[] args)
         {
+            var q = (double)7 / 3;
+
+            var he = Convert.ToInt32(Math.Round(q));
+            Console.WriteLine(he);
+
+
+
+
             string[,] s = new string[5, 4]
             {
                 { null, null, null, null },
