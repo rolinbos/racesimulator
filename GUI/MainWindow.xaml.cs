@@ -61,5 +61,11 @@ namespace GUI
                     this.CompleteTrack.Source = GUIVisualisatie.DrawTrack(Data.CurrentRace.Track);
                 }));
         }
+
+        private void MenuItem_Exit_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+            Application.Current.Shutdown();
+        }
     }
 }

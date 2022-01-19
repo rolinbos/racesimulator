@@ -6,8 +6,17 @@
         xmlns:local="clr-namespace:GUI"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Grid Background="Red">
-        <Image x:Name="CompleteTrack"/>
+    <Grid Background="Black">
+        <Image x:Name="CompleteTrack" Margin="0,20,0,0"/>
+        <DockPanel LastChildFill="False">
+            <Menu Height="20" VerticalAlignment="Top" DockPanel.Dock="Top">
+                <MenuItem Header="Menu">
+                    <MenuItem Header="Competitie"/>
+                    <MenuItem Header="Afsluiten" Click="MenuItem_Exit_Click"/>
+                </MenuItem>
+
+            </Menu>
+        </DockPanel>
 
     </Grid>
 </Window>
