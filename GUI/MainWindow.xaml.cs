@@ -34,6 +34,7 @@ namespace GUI
             Competition competition = new Competition();
             Data.Initialize(competition);
             Data.NextRace();
+
             Initialize();
         }
 

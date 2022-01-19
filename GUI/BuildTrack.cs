@@ -95,11 +95,6 @@ namespace GUI
             return newDirection;
         }
 
-        public static void ClearMap()
-        {
-            Map = null;
-        }
-
         public static List<SectionInformation> buildSectionInformation(int width, int height, Track track)
         {
             SectionInformation[,] map = new SectionInformation[(width * 2), (height * 2)];
@@ -147,16 +142,31 @@ namespace GUI
                         {
                             lowestCol = map[rowIndex, colIndex].col;
                         }
-
-                        map[rowIndex, colIndex].row = map[rowIndex, colIndex].row * 256;
-                        SectionInformations.Add(map[rowIndex, colIndex]);
                     }
                 }
             }
 
-            for (int i = 0; i < SectionInformations.Count; i++)
+            for (int rowIndex = 0; rowIndex < map.GetLength(0); rowIndex++)
             {
-                SectionInformations[i].col = (SectionInformations[i].col - lowestCol) * 256;
+                for (int colIndex = 0; colIndex < map.GetLength(1); colIndex++)
+                {
+                    if (map[rowIndex, colIndex] != null)
+                    {
+                        map[rowIndex, colIndex].row = map[rowIndex, colIndex].row * 256;
+                        map[rowIndex, colIndex].col = (map[rowIndex, colIndex].col - lowestCol) * 256;
+                        SectionInformations.Add(map[rowIndex, colIndex]);
+                    }
+                    else
+                    {
+                        SectionInformations.Add(new SectionInformation(
+                        rowIndex * 256,
+                        colIndex * 256,
+                            new Section(SectionTypes.Grass),
+                            Direction.East,
+                        Image.GetImage(GrassTile)
+                        ));
+                    }
+                }
             }
 
             return SectionInformations;

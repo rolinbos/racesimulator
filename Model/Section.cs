@@ -11,6 +11,7 @@ namespace Model
         RightCorner,
         StartGrid,
         Finish,
+        Grass
     }
 
     public class Section

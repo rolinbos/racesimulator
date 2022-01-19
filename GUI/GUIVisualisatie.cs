@@ -36,19 +36,26 @@ namespace GUI
         #endregion
 
         public static Bitmap Canvas;
-        
-        
+        private static Track Track;
+        private static List<SectionInformation> SectionInformation;
         public static BitmapSource DrawTrack(Track track)
         {
-            // Get Width and height of track
-            (int width, int height) getWidthAndHeight = BuildTrack.GetWidthAndHeight(track);
-            List<SectionInformation> sectionInformation = BuildTrack.buildSectionInformation(getWidthAndHeight.width, getWidthAndHeight.height, track);
-            // Create canvas
-            Canvas = Image.CreateEmptyBitmap(getWidthAndHeight.width * 256, getWidthAndHeight.height * 256);
+            if (Track != track)
+            {
+                Track = track;
+
+                // Get Width and height of track
+                (int width, int height) getWidthAndHeight = BuildTrack.GetWidthAndHeight(track);
+                SectionInformation = new List<SectionInformation>();
+                SectionInformation = BuildTrack.buildSectionInformation(getWidthAndHeight.width, getWidthAndHeight.height, track);
+                // Create canvas
+                Canvas = Image.CreateEmptyBitmap(getWidthAndHeight.width * 256, getWidthAndHeight.height * 256);
+            }
+            
             
             Graphics g = Graphics.FromImage(Canvas);
 
-            foreach (var sectionDetails in sectionInformation)
+            foreach (var sectionDetails in SectionInformation)
             {
                 g.DrawImage(sectionDetails.Bitmap, sectionDetails.col, sectionDetails.row, 256, 256);
                 PlaceParticipants(g, sectionDetails.Section, sectionDetails.col, sectionDetails.row);
