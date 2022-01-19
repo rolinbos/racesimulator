@@ -131,7 +131,9 @@ namespace GUI
             }
 
             int lowestCol = int.MaxValue;
-
+            int lowestRow = int.MaxValue;
+            int highestCol = int.MinValue;
+            int highestRow = int.MinValue;
             for (int rowIndex = 0; rowIndex < map.GetLength(0); rowIndex++)
             {
                 for (int colIndex = 0; colIndex < map.GetLength(1); colIndex++)
@@ -141,6 +143,21 @@ namespace GUI
                         if (lowestCol > map[rowIndex, colIndex].col || lowestCol == int.MaxValue)
                         {
                             lowestCol = map[rowIndex, colIndex].col;
+                        }
+
+                        if (highestCol < map[rowIndex, colIndex].col || highestCol == int.MinValue)
+                        {
+                            highestCol = map[rowIndex, colIndex].col;
+                        }
+
+                        if (lowestRow > map[rowIndex, colIndex].row || lowestRow == int.MaxValue)
+                        {
+                            lowestRow = map[rowIndex, colIndex].row;
+                        }
+
+                        if (highestRow < map[rowIndex, colIndex].row || highestRow == int.MinValue)
+                        {
+                            highestRow = map[rowIndex, colIndex].row;
                         }
                     }
                 }
@@ -158,13 +175,18 @@ namespace GUI
                     }
                     else
                     {
-                        SectionInformations.Add(new SectionInformation(
-                        rowIndex * 256,
-                        colIndex * 256,
-                            new Section(SectionTypes.Grass),
-                            Direction.East,
-                        Image.GetImage(GrassTile)
-                        ));
+                        if (
+                            colIndex >= lowestCol && colIndex <= highestCol && 
+                            rowIndex >= lowestRow && rowIndex <= highestRow) 
+                        {
+                            SectionInformations.Add(new SectionInformation(
+                                rowIndex * 256,
+                                (colIndex - lowestCol) * 256,
+                                new Section(SectionTypes.Grass),
+                                Direction.East,
+                                Image.GetImage(GrassTile)
+                            ));
+                        }
                     }
                 }
             }
