@@ -38,6 +38,8 @@ namespace GUI
         public static Bitmap Canvas;
         private static Dictionary<int, int> CoordinationX = new Dictionary<int, int>();
         private static Dictionary<int, int> CoordinationY = new Dictionary<int, int>();
+        private static Dictionary<int, Direction> CoordinationDirection = new Dictionary<int, Direction>();
+        
 
         public static BitmapSource DrawTrack(Track track)
         {
@@ -108,6 +110,7 @@ namespace GUI
                 map[row, col] = SetBitmap(section, direction);
                 CoordinationX.Add(index, row);
                 CoordinationY.Add(index, Rounding(col, 3));
+                //CoordinationDirection.Add(index, direction);
 
                 direction = BuildTrack.SetDirection(section.SectionType, (int)direction);
 
@@ -186,34 +189,38 @@ namespace GUI
 
         public static void PlaceParticipants(Graphics g, Track track)
         {
-            Debug.WriteLine("Pas driver aan");
             int index = 0;
+
             foreach (var section in track.Sections)
             {
                 int x = CoordinationX[index];
-                int y = CoordinationY[index] - 1;
+                int y = CoordinationY[index];
+                //Direction direction = CoordinationDirection[index];
 
                 var sectiondata = Data.CurrentRace.GetSectionData(section);
 
                 if (sectiondata.Left != null)
                 {
+                    var image = ParticipantsImage(sectiondata.Left);
                     if (sectiondata.Left.Equipment.IsBroken)
                     {
-                        g.DrawImage(Image.GetImage(Fire), x * 256 + 128, y * 256, 128, 128);
+                        image = Image.GetImage(Fire);
                     }
-                    Bitmap carleft = ParticipantsImage(sectiondata.Left);
-                    g.DrawImage(carleft, ((y * 256 + 128)), (x * 256), 128, 128);
+
+                    g.DrawImage(image, ((y * 256 + 128)), (x * 256), 128, 128);
                 }
                 if (sectiondata.Right != null)
                 {
+                    var image = ParticipantsImage(sectiondata.Right);
                     if (sectiondata.Right.Equipment.IsBroken)
                     {
-                        g.DrawImage(Image.GetImage(Fire), x * 256, y * 256 + 128, 128, 128);
+                        image = Image.GetImage(Fire);
                     }
-                    Bitmap carRight = ParticipantsImage(sectiondata.Right);
-                    g.DrawImage(carRight, ((y * 256)), ((x * 256 + 128)), 128, 128);
 
+                    g.DrawImage(image, ((y * 256)), ((x * 256 + 128)), 128, 128);
                 }
+
+                index += 1;
             }
         }
 
