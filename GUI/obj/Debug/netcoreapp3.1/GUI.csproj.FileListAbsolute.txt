@@ -35,3 +35,8 @@ C:\Users\Rolin\Downloads\Code\RaceSimulator\GUI\obj\Debug\netcoreapp3.1\GUI.cspr
 C:\Users\Rolin\Downloads\Code\RaceSimulator\GUI\obj\Debug\netcoreapp3.1\GUI.dll
 C:\Users\Rolin\Downloads\Code\RaceSimulator\GUI\obj\Debug\netcoreapp3.1\GUI.pdb
 C:\Users\Rolin\Downloads\Code\RaceSimulator\GUI\obj\Debug\netcoreapp3.1\GUI.genruntimeconfig.cache
+C:\Users\Rolin\Downloads\Code\RaceSimulator\GUI\obj\Debug\netcoreapp3.1\CompetitionDetail.g.cs
+C:\Users\Rolin\Downloads\Code\RaceSimulator\GUI\obj\Debug\netcoreapp3.1\RaceDetail.g.cs
+C:\Users\Rolin\Downloads\Code\RaceSimulator\GUI\obj\Debug\netcoreapp3.1\RaceDetail.baml
+C:\Users\Rolin\Downloads\Code\RaceSimulator\GUI\obj\Debug\netcoreapp3.1\CompetitionDetail.baml
+C:\Users\Rolin\Downloads\Code\RaceSimulator\GUI\obj\Debug\netcoreapp3.1\GeneratedInternalTypeHelper.g.cs

@@ -10,11 +10,11 @@ none
 false
 TRACE;DEBUG;NETCOREAPP;NETCOREAPP3_1;
 C:\Users\Rolin\Downloads\Code\RaceSimulator\GUI\App.xaml
-11407045341
+3-715126983
 1882579313
-9-677523706
+121331703062
 1961923248329
-MainWindow.xaml;
+CompetitionDetail.xaml;MainWindow.xaml;RaceDetail.xaml;
 
-False
+True
 

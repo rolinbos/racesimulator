@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,7 +26,8 @@ namespace GUI
     public partial class MainWindow : Window
     {
         public static Direction CurrentDirection = Direction.East;
-
+        private RaceDetail RaceDetail;
+        private CompetitionDetail CompetitionDetail;
         public MainWindow()
         {
             InitializeComponent();
@@ -60,12 +62,29 @@ namespace GUI
                     this.CompleteTrack.Source = null;
                     this.CompleteTrack.Source = GUIVisualisatie.DrawTrack(Data.CurrentRace.Track);
                 }));
+
+            this.Dispatcher?.Invoke(() =>
+            {
+                var datacontext = (RaceDetailDataContext)this.WindowMain.DataContext;
+                datacontext.TrackName = Data.CurrentRace.Track.Name;
+            });
         }
 
         private void MenuItem_Exit_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
             Application.Current.Shutdown();
+        }
+
+        private void Show_Race_Detail(object sender, RoutedEventArgs e)
+        {
+            this.RaceDetail = new RaceDetail();
+            this.RaceDetail.Show();
+        }
+
+        private void Show_Competition_Detail(object sender, RoutedEventArgs e)
+        {
+            this.CompetitionDetail.Show();
         }
     }
 }

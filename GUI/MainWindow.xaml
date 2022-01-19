@@ -5,18 +5,22 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GUI"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid Background="Black">
-        <Image x:Name="CompleteTrack" Margin="0,20,0,0"/>
-        <DockPanel LastChildFill="False">
+        Title="MainWindow" Height="460" Width="800" x:Name="WindowMain">
+    <Window.DataContext>
+        <local:RaceDetailDataContext/>
+    </Window.DataContext>
+    <Grid Background="Black" x:Name="Grid">
+        <Image x:Name="CompleteTrack" Margin="0,20,0,30" Grid.ColumnSpan="2"/>
+        <DockPanel LastChildFill="False" Grid.ColumnSpan="2">
             <Menu Height="20" VerticalAlignment="Top" DockPanel.Dock="Top">
                 <MenuItem Header="Menu">
-                    <MenuItem Header="Competitie"/>
+                    <MenuItem Header="Race" Click="Show_Race_Detail"/>
+                    <MenuItem Header="Competitie" Click="Show_Competition_Detail"/>
                     <MenuItem Header="Afsluiten" Click="MenuItem_Exit_Click"/>
                 </MenuItem>
 
             </Menu>
         </DockPanel>
-
+        <Label Content="{Binding TrackName}" Width="100" Foreground="White" Margin="350,414,350,0"/>
     </Grid>
 </Window>

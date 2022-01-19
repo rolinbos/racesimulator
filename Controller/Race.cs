@@ -38,7 +38,6 @@ namespace Controller
             this._timer = new Timer(500);
             this._timer.Elapsed += OnTimedEvent;
             this._timer.Start();
-            Debug.WriteLine("RACE");
         }
 
         private void OnTimedEvent(Object sender, ElapsedEventArgs e)
