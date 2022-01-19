@@ -36,191 +36,50 @@ namespace GUI
         #endregion
 
         public static Bitmap Canvas;
-        private static Dictionary<int, int> CoordinationX = new Dictionary<int, int>();
-        private static Dictionary<int, int> CoordinationY = new Dictionary<int, int>();
-        private static Dictionary<int, Direction> CoordinationDirection = new Dictionary<int, Direction>();
         
-
+        
         public static BitmapSource DrawTrack(Track track)
         {
-            CoordinationX = new Dictionary<int, int>();
-            CoordinationY = new Dictionary<int, int>();
+            // Get Width and height of track
+            (int width, int height) getWidthAndHeight = BuildTrack.GetWidthAndHeight(track);
+            List<SectionInformation> sectionInformation = BuildTrack.buildSectionInformation(getWidthAndHeight.width, getWidthAndHeight.height, track);
+            // Create canvas
+            Canvas = Image.CreateEmptyBitmap(getWidthAndHeight.width * 256, getWidthAndHeight.height * 256);
+            
+            Graphics g = Graphics.FromImage(Canvas);
 
-            var h = BuildTrack.Map;
-
-
-            //if (BuildTrack.Map == null)
-            //{
-                (int width, int height) getWidthAndHeight = BuildTrack.GetWidthAndHeight(track);
-
-                Canvas = Image.CreateEmptyBitmap(getWidthAndHeight.width * 256, getWidthAndHeight.height * 256);
-                Graphics g = Graphics.FromImage(Canvas);
-                Bitmap[,] map = CreateMap(track, getWidthAndHeight.width, getWidthAndHeight.height);
-
-                int x = 0;
-                int y = 0;
-                int index = 0;
-
-                for (int i = 0; i < map.GetLength(0); i++)
-                {
-                    for (int j = 0; j < map.GetLength(1); j++)
-                    {
-                        if (map[i, j] == null)
-                        {
-                            g.DrawImage(Image.GetImage(GrassTile), x, y, 256, 256);
-                        }
-                        else
-                        {
-                            g.DrawImage(map[i, j], x, y, 256, 256);
-                        }
-
-                        x += 256;
-                    }
-                    y += 256;
-                    x = 0;
-                }
-
-                PlaceParticipants(g, track);
-            //}
-            //else
-            //{
-            //    Graphics g = Graphics.FromImage(Canvas);
-            //    PlaceParticipants(g, track);
-            //    Debug.WriteLine("Hij komt hier");
-            //}
+            foreach (var sectionDetails in sectionInformation)
+            {
+                g.DrawImage(sectionDetails.Bitmap, sectionDetails.col, sectionDetails.row, 256, 256);
+                PlaceParticipants(g, sectionDetails.Section, sectionDetails.col, sectionDetails.row);
+            }
 
             return Image.CreateBitmapSourceFromGdiBitmap(Canvas);
         }
 
-        public static Bitmap[,] CreateMap(Track track, int horizontal, int vertical)
+        public static void PlaceParticipants(Graphics g, Section section, int col, int row)
         {
-            int hor = horizontal * 3;
-            int vert = vertical * 3;
-            Bitmap[,] map = new Bitmap[hor, vert];
-            string[,] stringMap = new string[hor, vert];
+            var sectiondata = Data.CurrentRace.GetSectionData(section);
 
-            int row = 0;
-            int col = hor / 2;
-            int index = 0;
-            RaceSimulator.Direction direction = RaceSimulator.Direction.East;
-
-            foreach (var section in track.Sections)
+            if (sectiondata.Left != null)
             {
-                stringMap[row, col] = section.SectionType.ToString();
-                map[row, col] = SetBitmap(section, direction);
-                CoordinationX.Add(index, row);
-                CoordinationY.Add(index, Rounding(col, 3));
-                //CoordinationDirection.Add(index, direction);
-
-                direction = BuildTrack.SetDirection(section.SectionType, (int)direction);
-
-                if (direction == RaceSimulator.Direction.North)
+                var image = ParticipantsImage(sectiondata.Left);
+                if (sectiondata.Left.Equipment.IsBroken)
                 {
-                    row--;
+                    image = Image.GetImage(Fire);
                 }
 
-                if (direction == RaceSimulator.Direction.East)
-                {
-                    col++;
-                }
-
-                if (direction == RaceSimulator.Direction.South)
-                {
-                    row++;
-                }
-
-                if (direction == RaceSimulator.Direction.West)
-                {
-                    col--;
-                }
-
-                index += 1;
+                g.DrawImage(image, (col + 128), row, 128, 128);
             }
-            
-
-            return BuildTrack.RemovingUnusedColOrRow(map);
-        }
-
-        public static Bitmap SetBitmap(Section section, Direction direction)
-        {
-            SectionData sectionData = Data.CurrentRace.GetSectionData(section);
-
-            if (section.SectionType == SectionTypes.StartGrid || section.SectionType == SectionTypes.Straight)
+            if (sectiondata.Right != null)
             {
-                if ((direction == Direction.East || direction == Direction.West))
+                var image = ParticipantsImage(sectiondata.Right);
+                if (sectiondata.Right.Equipment.IsBroken)
                 {
-                    return Image.GetImage(TrackHorizontal);
+                    image = Image.GetImage(Fire);
                 }
 
-                return Image.GetImage(TrackVertical);
-            } else if (section.SectionType == SectionTypes.RightCorner)
-            {
-                if (direction == Direction.South)
-                {
-                    return Image.GetImage(CornerLeftHorizontal);
-                }
-
-                if (direction == Direction.West)
-                {
-                    return Image.GetImage(CornerRightHorizontal);
-                }
-
-                if (direction == Direction.North)
-                {
-                    return Image.GetImage(CornerRightVertical);
-                }
-
-                return Image.GetImage(CornerLeftVertical);
-            } else if (section.SectionType == SectionTypes.LeftCorner)
-            {
-                if (direction == Direction.East || direction == Direction.West)
-                {
-                    return Image.GetImage(CornerRightVertical);
-                }
-
-                return Image.GetImage(CornerRightHorizontal); 
-            } else if (section.SectionType == SectionTypes.Finish)
-            {
-                return Image.GetImage(Finish);
-            }
-
-            return Image.GetImage(Fire);
-        }
-
-        public static void PlaceParticipants(Graphics g, Track track)
-        {
-            int index = 0;
-
-            foreach (var section in track.Sections)
-            {
-                int x = CoordinationX[index];
-                int y = CoordinationY[index];
-                //Direction direction = CoordinationDirection[index];
-
-                var sectiondata = Data.CurrentRace.GetSectionData(section);
-
-                if (sectiondata.Left != null)
-                {
-                    var image = ParticipantsImage(sectiondata.Left);
-                    if (sectiondata.Left.Equipment.IsBroken)
-                    {
-                        image = Image.GetImage(Fire);
-                    }
-
-                    g.DrawImage(image, ((y * 256 + 128)), (x * 256), 128, 128);
-                }
-                if (sectiondata.Right != null)
-                {
-                    var image = ParticipantsImage(sectiondata.Right);
-                    if (sectiondata.Right.Equipment.IsBroken)
-                    {
-                        image = Image.GetImage(Fire);
-                    }
-
-                    g.DrawImage(image, ((y * 256)), ((x * 256 + 128)), 128, 128);
-                }
-
-                index += 1;
+                g.DrawImage(image, (col), (row + 128), 128, 128);
             }
         }
 
@@ -241,13 +100,6 @@ namespace GUI
                 default:
                     throw new ArgumentOutOfRangeException("Color null");
             }
-        }
-
-        public static int Rounding(int number, int splitter)
-        {
-            double output = (double)number / splitter;
-
-            return Convert.ToInt32(Math.Round(output));
         }
     }
 }
