@@ -45,28 +45,33 @@ namespace GUI
             Image.ClearCache();
             Data.CurrentRace.DriverChanged += DriversChanged;
             Data.CurrentRace.NextRace += NextRace;
-
-            if (this.CompetitionDetail != null)
-            {
-                this.CompetitionDetail.UpdateCompetitionScherm();
-            }
         }
 
         //Add the new events (intialize) to the new race when previous race ends
         public void NextRace(Object source, RaceStartEventArgs e)
         {
-            Initialize();
+            if (this.CompetitionDetail != null)
+            {
+                this.CompetitionDetail.UpdateCompetitionScherm();
+            }
+            if (e.Race != null)
+            {
+                Initialize();
+            }
         }
 
         public void DriversChanged(Object sender, DriversChangedEventArgs args)
         {
-            this.CompleteTrack.Dispatcher.BeginInvoke(
-                DispatcherPriority.Render,
-                new Action(() =>
-                {
-                    this.CompleteTrack.Source = null;
-                    this.CompleteTrack.Source = GUIVisualisatie.DrawTrack(Data.CurrentRace.Track);
-                }));
+            if (Data.CurrentRace != null)
+            {
+                this.CompleteTrack.Dispatcher.BeginInvoke(
+                    DispatcherPriority.Render,
+                    new Action(() =>
+                    {
+                        this.CompleteTrack.Source = null;
+                        this.CompleteTrack.Source = GUIVisualisatie.DrawTrack();
+                    }));
+            }
         }
 
         private void MenuItem_Exit_Click(object sender, RoutedEventArgs e)

@@ -53,23 +53,23 @@ namespace Controller
             //    SectionTypes.LeftCorner,
             //    SectionTypes.Finish,
             //}));
-            Competition.Tracks.Enqueue(new Track("Difficult", new SectionTypes[]
-            {
-                SectionTypes.StartGrid,
-                SectionTypes.RightCorner,
-                SectionTypes.LeftCorner,
-                SectionTypes.RightCorner,
-                SectionTypes.RightCorner,
-                SectionTypes.LeftCorner,
-                SectionTypes.RightCorner,
-                SectionTypes.Straight,
-                SectionTypes.Straight,
-                SectionTypes.RightCorner,
-                SectionTypes.Straight,
-                SectionTypes.Straight,
-                SectionTypes.RightCorner,
-                SectionTypes.Finish,
-            }));
+            //Competition.Tracks.Enqueue(new Track("Difficult", new SectionTypes[]
+            //{
+            //    SectionTypes.StartGrid,
+            //    SectionTypes.RightCorner,
+            //    SectionTypes.LeftCorner,
+            //    SectionTypes.RightCorner,
+            //    SectionTypes.RightCorner,
+            //    SectionTypes.LeftCorner,
+            //    SectionTypes.RightCorner,
+            //    SectionTypes.Straight,
+            //    SectionTypes.Straight,
+            //    SectionTypes.RightCorner,
+            //    SectionTypes.Straight,
+            //    SectionTypes.Straight,
+            //    SectionTypes.RightCorner,
+            //    SectionTypes.Finish,
+            //}));
         }
 
         /**

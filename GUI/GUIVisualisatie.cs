@@ -38,55 +38,68 @@ namespace GUI
         public static Bitmap Canvas;
         private static Track Track;
         private static List<SectionInformation> SectionInformation;
-        public static BitmapSource DrawTrack(Track track)
+        public static BitmapSource DrawTrack()
         {
-            if (Track != track)
+            if (Data.CurrentRace != null)
             {
-                Track = track;
+                var track = Data.CurrentRace.Track;
 
-                // Get Width and height of track
-                (int width, int height) getWidthAndHeight = BuildTrack.GetWidthAndHeight(track);
-                SectionInformation = new List<SectionInformation>();
-                SectionInformation = BuildTrack.buildSectionInformation(getWidthAndHeight.width, getWidthAndHeight.height, track);
-                // Create canvas
-                Canvas = Image.CreateEmptyBitmap(getWidthAndHeight.width * 256, getWidthAndHeight.height * 256);
-            }
-            
-            
-            Graphics g = Graphics.FromImage(Canvas);
+                if (Track != track)
+                {
+                    Track = track;
 
-            foreach (var sectionDetails in SectionInformation)
-            {
-                g.DrawImage(sectionDetails.Bitmap, sectionDetails.col, sectionDetails.row, 256, 256);
-                PlaceParticipants(g, sectionDetails.Section, sectionDetails.col, sectionDetails.row);
+                    if (Track != null)
+                    {
+                        // Get Width and height of track
+                        (int width, int height) getWidthAndHeight = BuildTrack.GetWidthAndHeight(track);
+                        SectionInformation = new List<SectionInformation>();
+                        SectionInformation = BuildTrack.buildSectionInformation(getWidthAndHeight.width, getWidthAndHeight.height, track);
+                        // Create canvas
+                        Canvas = Image.CreateEmptyBitmap(getWidthAndHeight.width * 256, getWidthAndHeight.height * 256);
+                    }
+                }
+
+                Graphics g = Graphics.FromImage(Canvas);
+
+                foreach (var sectionDetails in SectionInformation)
+                {
+                    g.DrawImage(sectionDetails.Bitmap, sectionDetails.col, sectionDetails.row, 256, 256);
+
+                    PlaceParticipants(g, sectionDetails.Section, sectionDetails.col, sectionDetails.row);
+                }
             }
+
 
             return Image.CreateBitmapSourceFromGdiBitmap(Canvas);
         }
 
         public static void PlaceParticipants(Graphics g, Section section, int col, int row)
         {
-            var sectiondata = Data.CurrentRace.GetSectionData(section);
-
-            if (sectiondata.Left != null)
+            if (Data.CurrentRace != null)
             {
-                var image = ParticipantsImage(sectiondata.Left);
-                if (sectiondata.Left.Equipment.IsBroken)
+                var sectiondata = Data.CurrentRace.GetSectionData(section);
+
+                if (sectiondata.Left != null)
                 {
-                    image = Image.GetImage(Fire);
+                    var image = ParticipantsImage(sectiondata.Left);
+                    if (sectiondata.Left.Equipment.IsBroken)
+                    {
+                        image = Image.GetImage(Fire);
+                    }
+
+                    g.DrawImage(image, (col + 128), row, 128, 128);
                 }
 
-                g.DrawImage(image, (col + 128), row, 128, 128);
-            }
-            if (sectiondata.Right != null)
-            {
-                var image = ParticipantsImage(sectiondata.Right);
-                if (sectiondata.Right.Equipment.IsBroken)
+                if (sectiondata.Right != null)
                 {
-                    image = Image.GetImage(Fire);
-                }
+                    var image = ParticipantsImage(sectiondata.Right);
+                    if (sectiondata.Right.Equipment.IsBroken)
+                    {
+                        image = Image.GetImage(Fire);
+                    }
 
-                g.DrawImage(image, (col), (row + 128), 128, 128);
+                    g.DrawImage(image, (col), (row + 128), 128, 128);
+                }
             }
         }
 

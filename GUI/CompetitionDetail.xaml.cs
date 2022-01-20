@@ -35,7 +35,7 @@ namespace GUI
                 dataContext.participants = new System.Collections.ObjectModel.ObservableCollection<string>();
 
                 int index = 1;
-                foreach (var item in Data.CurrentRace.Participants.OrderByDescending(participant => participant.Points))
+                foreach (var item in Data.Competition.Participants.OrderByDescending(participant => participant.Points))
                 {
                     var str = $"{index}. {item.Name} heeft {item.Points} punten";
                     dataContext.participants.Add(str);
