@@ -22,7 +22,6 @@ namespace Controller
             Competition.Participants.Add(new Driver("Rolin", 0, new Car(0, 0, 0, false), TeamColors.Blue));
             Competition.Participants.Add(new Driver("Patrick", 0, new Car(0, 0, 0, false), TeamColors.Red));
             Competition.Participants.Add(new Driver("Sjoerd", 0, new Car(0, 0, 0, false), TeamColors.Green));
-            Competition.Participants.Add(new Driver("Amber", 0, new Car(0, 0, 0, false), TeamColors.Yellow));
         }
 
         public static void AddTracks()
