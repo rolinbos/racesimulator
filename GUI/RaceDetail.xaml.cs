@@ -38,11 +38,20 @@ namespace GUI
             {
                 var dataContext = (RaceDetailDataContext)this.RaceGrid.DataContext;
                 dataContext.TrackName = Data.CurrentRace.Track.Name;
-                dataContext.Participants = new System.Collections.ObjectModel.ObservableCollection<string>();
+                dataContext.participants = new System.Collections.ObjectModel.ObservableCollection<string>();
+
                 foreach (var item in Data.CurrentRace.Participants)
                 {
-                    dataContext.Participants.Add(item.Name);
-                    dataContext.Participants.Add(item.Laps.ToString());
+                    var str = $"{item.Name} heeft {item.Laps} lap gereden";
+                    dataContext.participants.Add(str);
+                }
+
+                dataContext.racelijst = new System.Collections.ObjectModel.ObservableCollection<string>();
+                //Voeg alle tracknamen toe aan de lijst
+                dataContext.racelijst.Add(Data.CurrentRace.Track.Name);
+                foreach (var item in Data.CurrentRace.Track.Sections)
+                {
+                    dataContext.racelijst.Add(item.SectionType.ToString());
                 }
             });
         }

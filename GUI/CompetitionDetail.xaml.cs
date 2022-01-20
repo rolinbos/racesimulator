@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Controller;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Windows;
@@ -9,6 +10,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using Model;
+using System.Linq;
 
 namespace GUI
 {
@@ -20,6 +23,25 @@ namespace GUI
         public CompetitionDetail()
         {
             InitializeComponent();
+            this.UpdateCompetitionScherm();
+        }
+
+        public void UpdateCompetitionScherm()
+        {
+            this.Dispatcher.Invoke(() =>
+            {
+                var dataContext = (RaceDetailDataContext)this.RaceGrid.DataContext;
+                dataContext.TrackName = "Competitie";
+                dataContext.participants = new System.Collections.ObjectModel.ObservableCollection<string>();
+
+                int index = 1;
+                foreach (var item in Data.CurrentRace.Participants.OrderByDescending(participant => participant.Points))
+                {
+                    var str = $"{index}. {item.Name} heeft {item.Points} punten";
+                    dataContext.participants.Add(str);
+                    index++;
+                }
+            });
         }
     }
 }

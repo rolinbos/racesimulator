@@ -11,5 +11,9 @@
     </Window.DataContext>
     <Grid Margin="0,0,0,0">
         <Label Content="{Binding TrackName}" HorizontalAlignment="Left" Margin="10,0,0,324" VerticalAlignment="Bottom" Height="84" Width="218" FontWeight="Bold" FontSize="40" />
+        <ListBox x:Name="participants" IsSynchronizedWithCurrentItem="False" ItemsSource="{Binding participants}" Margin="10,136,423,0"></ListBox>
+        <Label Content="Deelnemers:" HorizontalAlignment="Left" Margin="10,110,0,0" VerticalAlignment="Top"/>
+        <Label Content="Baan" HorizontalAlignment="Left" Margin="423,110,0,0" VerticalAlignment="Top"/>
+        <ListBox x:Name="racelijst" IsSynchronizedWithCurrentItem="False" ItemsSource="{Binding racelijst}" Margin="423,136,10,0"></ListBox>
     </Grid>
 </Window>

@@ -75,6 +75,7 @@ namespace Controller
                         }
                         if (sectionData.Left.Laps >= this.Laps)
                         {
+                            GivePoints(sectionData.Left);
                             sectionData.Left = null;
                             participantFinished += 1;
                         } else 
@@ -103,6 +104,7 @@ namespace Controller
                         }
                         if (sectionData.Right.Laps >= this.Laps)
                         {
+                            GivePoints(sectionData.Right);
                             sectionData.Right = null;
                             participantFinished += 1;
                         }
@@ -120,12 +122,20 @@ namespace Controller
 
                 sectionNode = sectionNode.Next;
 
+                this.DriverChanged?.Invoke(this, new DriversChangedEventArgs(this.Track));
+
                 if (this.participantFinished == this.Participants.Count)
                 {
                     this.StartNextRace();
                 }
+            }
+        }
 
-                this.DriverChanged?.Invoke(this, new DriversChangedEventArgs(this.Track));
+        private void GivePoints(IParticipant participant)
+        {
+            if (participant != null)
+            {
+                participant.Points = Data.Competition.Participants.Count - participantFinished;
             }
         }
 

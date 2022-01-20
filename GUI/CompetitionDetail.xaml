@@ -5,9 +5,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GUI"
         mc:Ignorable="d"
-        Title="CompetitionDetail" Height="450" Width="800">
-    <Grid>
-        <Label Content="Competition" HorizontalAlignment="Left" Margin="311,190,0,0" VerticalAlignment="Top"/>
-
+        Title="RaceDetail" Height="450" Width="800" x:Name="RaceGrid">
+    <Window.DataContext>
+        <local:RaceDetailDataContext/>
+    </Window.DataContext>
+    <Grid Margin="0,0,0,0">
+        <Label Content="{Binding TrackName}" HorizontalAlignment="Left" Margin="10,0,0,324" VerticalAlignment="Bottom" Height="84" Width="218" FontWeight="Bold" FontSize="40" />
+        <ListBox x:Name="participants" IsSynchronizedWithCurrentItem="False" ItemsSource="{Binding participants}" Margin="10,136,423,0"></ListBox>
+        <Label Content="Deelnemers:" HorizontalAlignment="Left" Margin="10,110,0,0" VerticalAlignment="Top"/>
     </Grid>
 </Window>

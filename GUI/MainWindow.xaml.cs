@@ -45,6 +45,11 @@ namespace GUI
             Image.ClearCache();
             Data.CurrentRace.DriverChanged += DriversChanged;
             Data.CurrentRace.NextRace += NextRace;
+
+            if (this.CompetitionDetail != null)
+            {
+                this.CompetitionDetail.UpdateCompetitionScherm();
+            }
         }
 
         //Add the new events (intialize) to the new race when previous race ends
@@ -62,12 +67,6 @@ namespace GUI
                     this.CompleteTrack.Source = null;
                     this.CompleteTrack.Source = GUIVisualisatie.DrawTrack(Data.CurrentRace.Track);
                 }));
-
-            this.Dispatcher?.Invoke(() =>
-            {
-                var datacontext = (RaceDetailDataContext)this.WindowMain.DataContext;
-                datacontext.TrackName = Data.CurrentRace.Track.Name;
-            });
         }
 
         private void MenuItem_Exit_Click(object sender, RoutedEventArgs e)
@@ -84,6 +83,7 @@ namespace GUI
 
         private void Show_Competition_Detail(object sender, RoutedEventArgs e)
         {
+            this.CompetitionDetail = new CompetitionDetail();
             this.CompetitionDetail.Show();
         }
     }
