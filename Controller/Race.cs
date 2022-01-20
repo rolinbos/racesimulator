@@ -12,7 +12,7 @@ namespace Controller
         public Track Track { get; set; }
         public List<IParticipant> Participants { get; set; }
         public DateTime StartTime { get; set; }
-        public int Laps = 1;
+        public int Laps = 2;
 
         private Random _random = new Random();
         private Dictionary<Section, SectionData> _positions = new Dictionary<Section, SectionData>();
@@ -131,7 +131,7 @@ namespace Controller
             }
         }
 
-        private void GivePoints(IParticipant participant)
+        public void GivePoints(IParticipant participant)
         {
             if (participant != null)
             {

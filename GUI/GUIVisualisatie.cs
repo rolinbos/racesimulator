@@ -65,7 +65,7 @@ namespace GUI
                 {
                     g.DrawImage(sectionDetails.Bitmap, sectionDetails.col, sectionDetails.row, 256, 256);
 
-                    PlaceParticipants(g, sectionDetails.Section, sectionDetails.col, sectionDetails.row);
+                    PlaceParticipants(g, sectionDetails.Section, sectionDetails.col, sectionDetails.row,sectionDetails.Direction);
                 }
             }
 
@@ -73,7 +73,7 @@ namespace GUI
             return Image.CreateBitmapSourceFromGdiBitmap(Canvas);
         }
 
-        public static void PlaceParticipants(Graphics g, Section section, int col, int row)
+        public static void PlaceParticipants(Graphics g, Section section, int col, int row, Direction direction)
         {
             if (Data.CurrentRace != null)
             {
